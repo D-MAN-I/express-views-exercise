@@ -3,7 +3,7 @@ const app = express()
 const bankApi = require('./api/bankApi.js')
 
 // Register middleware
-app.use(express.json())
+//app.use(express.json())
 
 // Body Parser Middleware (see https://www.youtube.com/watch?v=L72fhGm1tfE&t=2673s at minute 44:35 / 1:14:00)
 app.use(express.urlencoded( {extended: false}))
