@@ -10,8 +10,12 @@ app.set('view engine', 'hbs')
 
 //global variable to store list of accounts
 let accounts = [
-  { name: "checking",
+  { name: "Checking",
     balance: 100,
+    isActive: true
+  },
+  { name: "Savings",
+    balance:  500,
     isActive: true
   }
 ];
@@ -19,16 +23,17 @@ let accounts = [
 //Write your HTTP request handlers using RESTful routes here
 //call methods in the bankApi as needed. Feel free to modify the API
 //as you see fit to accomplish the goals of the app
-
+app.get("/", (req, res) => {
+  res.send('working')
+});
 //accounts GET (all). 
 //Sends back a page with all of the accounts listed (only show their names and
 //balances)
 
-let bAccounts = bankApi.getAccounts(accounts)
+// let bAccounts = bankApi.getAccounts(accounts)
 app.get("/accounts", (req, res) => {
- let account = accounts[0]
- res.render("accounts/homepage", { account } );
-
+ let accountList = accounts
+ res.render("accounts/all", { accountList } );
 });
 
 //accounts GET (single)
@@ -40,14 +45,17 @@ app.get("/accounts/:id", (req, res) => {
   
   //create a View on the single account and send it to the user
   //note: { account } the same as writing { account: account }
+  // account = accounts
   res.render("accounts/account", { account } ); 
 });
 
 //accounts POST
 //this should add a new POST from req.body to accounts (global variable)
 //and sends back the same page to list all accounts.
-app.get("/accounts", (req, res) => {
-  res.send('post')
+app.post("/accounts", (req, res) => {
+
+  
+  res.render("accounts/account", `(${bankApi.addNewAccount(accounts, req.body)})`)
 });
 
 //accounts PUT (note here you'll need to put /put at the end of your
