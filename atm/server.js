@@ -52,10 +52,10 @@ app.get("/accounts/:id", (req, res) => {
 //accounts POST
 //this should add a new POST from req.body to accounts (global variable)
 //and sends back the same page to list all accounts.
-app.post("/accounts", (req, res) => {
-
+app.post("/", (req, res) => {
+  let bAccounts = bankApi.addNewAccount(accounts, `${req.body}`);
   
-  res.render("accounts/account", `(${bankApi.addNewAccount(accounts, req.body)})`)
+  res.render("accounts/all", {bAccounts})
 });
 
 //accounts PUT (note here you'll need to put /put at the end of your

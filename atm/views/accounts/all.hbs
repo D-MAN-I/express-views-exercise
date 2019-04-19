@@ -1,5 +1,5 @@
 {{#each accountList}}
-<h1>Account: {{ name }} - Balance: ${{balance}}</h1>
+<h1>Account: <a href="/accounts/{{@index}}">{{ name }}</a> - Balance: ${{balance}}</h1>
 {{/each}}
 <input type="text" value="name" name="name" id="">
 <input type="text" value="balance" name="name" id="">
