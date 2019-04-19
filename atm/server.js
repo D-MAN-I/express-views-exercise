@@ -5,6 +5,9 @@ const bankApi = require('./api/bankApi.js')
 // Register middleware
 app.use(express.json())
 
+// Body Parser Middleware (see https://www.youtube.com/watch?v=L72fhGm1tfE&t=2673s at minute 44:35 / 1:14:00)
+app.use(express.urlencoded( {extended: false}))
+
 //add middleware for handlebars here
 app.set('view engine', 'hbs')
 
@@ -24,17 +27,24 @@ let accounts = [
 //call methods in the bankApi as needed. Feel free to modify the API
 //as you see fit to accomplish the goals of the app
 app.get("/", (req, res) => {
-  res.send('working')
+  res.send('Hello World')
 });
 //accounts GET (all). 
 //Sends back a page with all of the accounts listed (only show their names and
 //balances)
 
-// let bAccounts = bankApi.getAccounts(accounts)
 app.get("/accounts", (req, res) => {
  let accountList = accounts
  res.render("accounts/all", { accountList } );
 });
+
+
+//Setup for new account page
+app.get("/accounts/new", (req, res) => {
+  let accountList = accounts
+  res.render("accounts/new");
+});
+
 
 //accounts GET (single)
 //Sends. back a single page with the details of a single acount displayed
@@ -45,29 +55,35 @@ app.get("/accounts/:id", (req, res) => {
   
   //create a View on the single account and send it to the user
   //note: { account } the same as writing { account: account }
-  // account = accounts
+
   res.render("accounts/account", { account } ); 
 });
 
 //accounts POST
 //this should add a new POST from req.body to accounts (global variable)
 //and sends back the same page to list all accounts.
-app.post("/", (req, res) => {
-  let bAccounts = bankApi.addNewAccount(accounts, `${req.body}`);
-  
-  res.render("accounts/all", {bAccounts})
+app.post("/accounts/new", (req, res) => {
+  bankApi.addNewAccount(accounts, {
+    name: req.body.name,
+    balance: req.body.balance,
+    isActive: req.body.isActive
+  });
+  let accountList = bankApi.getAccounts(accounts)
+  console.log(req.body)
+  res.render("accounts/new", { accountList } );
+  //res.send(req.body)
 });
 
 //accounts PUT (note here you'll need to put /put at the end of your
 //path. This is a work around because HTML forms only allow GET and POST
 //requests). Make sure the HTML Form has the pattern: action='.../put' 
-app.get("/accounts/:id/put", (req, res) => {
+app.put("/accounts/:id/put", (req, res) => {
 });
 
 //accounts DELETE (note here you'll need to put /delete at the end of your
 //path. This is a work around because HTML forms only allow GET and POST
 //requests). Make sure the HTML Form has the pattern: action='.../put' 
-app.get("/accounts/:id/delete", (req, res) => { 
+app.delete("/accounts/:id/delete", (req, res) => { 
 });
 
 //keep these lines at the bottom of the file

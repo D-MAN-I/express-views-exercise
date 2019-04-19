@@ -1,6 +1,9 @@
+<h1>Your Account Summary</h1>
 {{#each accountList}}
-<h1>Account: <a href="/accounts/{{@index}}">{{ name }}</a> - Balance: ${{balance}}</h1>
+<h2>Account: <a href="/accounts/{{@index}}">{{ name }}</a> - Balance: ${{balance}}</h2>
 {{/each}}
-<input type="text" value="name" name="name" id="">
-<input type="text" value="balance" name="name" id="">
-<input type="text" value="isActive" name="name" id="">
+
+<h3><a href="/accounts/new">Setup New Account</a>
+</h3>
+
+<a href="/accounts">go back</a>
